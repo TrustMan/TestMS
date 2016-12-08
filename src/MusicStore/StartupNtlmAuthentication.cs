@@ -38,7 +38,7 @@ namespace MusicStore
             // is found in both the registered sources, then the later source will win. By this way a Local config
             // can be overridden by a different setting while deployed remotely.
             var builder = new ConfigurationBuilder()
-                .SetBasePath(hostingEnvironment.ContentRootPath)
+				//.SetBasePath(hostingEnvironment.ContentRootPath) delete line
                 .AddJsonFile("config.json")
                 //All environment variables in the process's context flow in as configuration values.
                 .AddEnvironmentVariables();
@@ -52,8 +52,10 @@ namespace MusicStore
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             // Add EF services to the services container
+			//services.AddDbContext<MusicStoreContext>(options => options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"])); Delete line
+            string connection = Configuration.GetConnectionString("MySQLConnection");
             services.AddDbContext<MusicStoreContext>(options =>
-                            options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                        options.UseMySql(connection)); //add line
 
             // Add Identity services to the services container
             services.AddIdentity<ApplicationUser, IdentityRole>()

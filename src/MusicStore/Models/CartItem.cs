@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; //add line
 
 namespace MusicStore.Models
 {
@@ -13,7 +14,8 @@ namespace MusicStore.Models
         public int AlbumId { get; set; }
         public int Count { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.DateTime)] //Delete line
+		[Column(TypeName = "datetime")] //add line
         public DateTime DateCreated { get; set; } 
 
         public virtual Album Album { get; set; }

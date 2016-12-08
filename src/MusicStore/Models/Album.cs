@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; //add line
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace MusicStore.Models
@@ -35,6 +36,7 @@ namespace MusicStore.Models
         [ScaffoldColumn(false)]
         [BindNever]
         [Required]
+		[Column(TypeName = "datetime")] //add line
         public DateTime Created { get; set; }
 
         /// <summary>

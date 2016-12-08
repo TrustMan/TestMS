@@ -13,7 +13,7 @@ namespace MusicStore
 {
     public class Startup
     {
-        private readonly Platform _platform;
+        //private readonly Platform _platform; Remove line
 
         public Startup(IHostingEnvironment hostingEnvironment)
         {
@@ -21,13 +21,13 @@ namespace MusicStore
             // is found in both the registered sources, then the later source will win. By this way a Local config
             // can be overridden by a different setting while deployed remotely.
             var builder = new ConfigurationBuilder()
-                .SetBasePath(hostingEnvironment.ContentRootPath)
+                //.SetBasePath(hostingEnvironment.ContentRootPath) Remove line
                 .AddJsonFile("config.json")
                 //All environment variables in the process's context flow in as configuration values.
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-            _platform = new Platform();
+            //_platform = new Platform(); Remove line
         }
 
         public IConfiguration Configuration { get; private set; }
@@ -37,17 +37,21 @@ namespace MusicStore
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             // Add EF services to the services container
-            if (_platform.UseInMemoryStore)
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                    options.UseInMemoryDatabase());
-            }
-            else
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                    options.UseSqlServer(Configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")]));
-            }
+            //if (_platform.UseInMemoryStore) Remove 10 line
+            //{
+            //    services.AddDbContext<MusicStoreContext>(options =>
+            //        options.UseInMemoryDatabase());
+            //}
+            //else
+            //{
+            //    services.AddDbContext<MusicStoreContext>(options =>
+            //        options.UseSqlServer(Configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")]));
+            //}
 
+			string connection = Configuration.GetConnectionString("LocalMySQLConnection"); //Add 3 line
+             services.AddDbContext<MusicStoreContext>(options =>
+                         options.UseMySql(connection));
+			
             // Add Identity services to the services container
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                     {

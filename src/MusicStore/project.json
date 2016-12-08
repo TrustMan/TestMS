@@ -59,6 +59,7 @@
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.1",
     "Microsoft.Extensions.Configuration.Json": "1.0.1",
     "Microsoft.Extensions.Logging.Console": "1.0.1",
+	"Pomelo.EntityFrameworkCore.MySql": "1.0.1-*", //ADD LINE AND DELETE COMMENTS
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.1"
   },
   "frameworks": {

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore; //add line
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -99,8 +100,10 @@ namespace MusicStore.Models
             var user = await userManager.FindByNameAsync(configuration[defaultAdminUserName]);
             if (user == null)
             {
-                user = new ApplicationUser { UserName = configuration[defaultAdminUserName] };
-                await userManager.CreateAsync(user, configuration[defaultAdminPassword]);
+                //user = new ApplicationUser { UserName = configuration[defaultAdminUserName] }; Delete 2 line
+                //await userManager.CreateAsync(user, configuration[defaultAdminPassword]);
+				user = new ApplicationUser { UserName = configuration[defaultAdminUserName], PasswordHash = configuration[defaultAdminPassword] }; //Add line
+                await userManager.CreateAsync(user); //add line
                 //await userManager.AddToRoleAsync(user, adminRole);
                 await userManager.AddClaimAsync(user, new Claim("ManageStore", "Allowed"));
             }
@@ -128,7 +131,7 @@ namespace MusicStore.Models
             {
                 new Album { Title = "The Best Of The Men At Work", Genre = genres["Pop"], Price = 8.99M, Artist = artists["Men At Work"], AlbumArtUrl = imgUrl },
                 new Album { Title = "...And Justice For All", Genre = genres["Metal"], Price = 8.99M, Artist = artists["Metallica"], AlbumArtUrl = imgUrl },
-                new Album { Title = "עד גבול האור", Genre = genres["World"], Price = 8.99M, Artist = artists["אריק אינשטיין"], AlbumArtUrl = imgUrl },
+              //new Album { Title = "עד גבול האור", Genre = genres["World"], Price = 8.99M, Artist = artists["אריק אינשטיין"], AlbumArtUrl = imgUrl }, Delete line because artists["אריק אינשטיין"] has forbidden symbols
                 new Album { Title = "Black Light Syndrome", Genre = genres["Rock"], Price = 8.99M, Artist = artists["Terry Bozzio, Tony Levin & Steve Stevens"], AlbumArtUrl = imgUrl },
                 new Album { Title = "10,000 Days", Genre = genres["Rock"], Price = 8.99M, Artist = artists["Tool"], AlbumArtUrl = imgUrl },
                 new Album { Title = "11i", Genre = genres["Electronic"], Price = 8.99M, Artist = artists["Supreme Beings of Leisure"], AlbumArtUrl = imgUrl },
@@ -909,8 +912,8 @@ namespace MusicStore.Models
                         new Artist { Name = "Yehudi Menuhin" },
                         new Artist { Name = "Yes" },
                         new Artist { Name = "Yo-Yo Ma" },
-                        new Artist { Name = "Zeca Pagodinho" },
-                        new Artist { Name = "אריק אינשטיין"}
+                        new Artist { Name = "Zeca Pagodinho" }/*,
+                        new Artist { Name = "אריק אינשטיין"} Delete line because artists["אריק אינשטיין"] has forbidden symbols*/
                     };
 
                     artists = new Dictionary<string, Artist>();

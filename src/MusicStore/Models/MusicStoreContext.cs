@@ -1,9 +1,14 @@
+using System.ComponentModel.DataAnnotations.Schema; //add line
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MusicStore.Models
 {
-    public class ApplicationUser : IdentityUser { }
+    public class ApplicationUser : IdentityUser 
+	{
+        [Column(TypeName = "datetime")] //add lines
+        public override DateTimeOffset? LockoutEnd { get; set; }
+    }
 
     public class MusicStoreContext : IdentityDbContext<ApplicationUser>
     {

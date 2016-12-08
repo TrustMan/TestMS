@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; //add line
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace MusicStore.Models
@@ -13,6 +14,7 @@ namespace MusicStore.Models
 
         [BindNever]
         [ScaffoldColumn(false)]
+		[Column(TypeName = "datetime")] //add line
         public System.DateTime OrderDate { get; set; }
 
         [BindNever]

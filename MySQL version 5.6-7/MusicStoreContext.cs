@@ -1,7 +1,10 @@
-using System;//add line
-using System.ComponentModel.DataAnnotations.Schema; //add line
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MusicStore.Models
 {
@@ -18,11 +21,8 @@ namespace MusicStore.Models
 
         [Column(TypeName = "varchar(255)")]
         public override string NormalizedUserName { get; set; }
-
-        [Column(TypeName = "datetime")] //add lines
-        public override DateTimeOffset? LockoutEnd { get; set; }
+       
     }
-
     public class ApplicationRole : IdentityRole //Add class ApplicationRole and override filds NormalizedName ,Name 
     {
         [Column(TypeName = "varchar(255)")]
@@ -31,8 +31,14 @@ namespace MusicStore.Models
         [Column(TypeName = "varchar(255)")]
         public override string Name { get; set; }
     }
-    public class MusicStoreContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+
+    
+
+
+	public class MusicStoreContext : IdentityDbContext<ApplicationUser> //Delete line
+    public class MusicStoreContext : IdentityDbContext<ApplicationUser, ApplicationRole, string> //Add line
     {
+        
         public MusicStoreContext(DbContextOptions<MusicStoreContext> options)
             : base(options)
         {
@@ -40,6 +46,7 @@ namespace MusicStore.Models
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
+        
         public DbSet<Album> Albums { get; set; }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Order> Orders { get; set; }

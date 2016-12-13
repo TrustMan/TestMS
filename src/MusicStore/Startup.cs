@@ -48,7 +48,7 @@ namespace MusicStore
             //        options.UseSqlServer(Configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")]));
             //}
 
-			string connection = Configuration.GetConnectionString("LocalMySQLConnection"); //Add 3 line
+			string connection = Configuration.GetConnectionString("MySQLConnection"); //Add 3 line
              services.AddDbContext<MusicStoreContext>(options =>
                          options.UseMySql(connection));
 			
